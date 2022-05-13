@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student-Form</title>
+  </head>
+  {% block content %}
+  <body>
+    <h2>{{ reasons.reasonName }}</h2>
+    <form
+      method="POST"
+      id="studentForm"
+      data-sectors-url="{% url 'load_sectors' %}"
+    >
+      {% csrf_token %}
+      <label> Districts</label>
+      <select name="district" id="district" class="form-control">
+        <option value="">--select district--</option>
+        {% for dist in districts %}
+        <option value="{{dist.id}}">{{dist.d_name}}</option>
+        {% endfor %}
+      </select>
+      <label for="">Sectors</label>
+      <select name="sectors" id="sectors" class="form-control">
+        <br />
+      </select>
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+      $("#district").change(function () {
+        var url = $("#studentForm").attr("data-sectors-url");
+        var districtId = $(this).val();
+
+        $.ajax({
+          url: url,
+          data: {
+            'district': districtId,
+          },
+          success: function (data) {
+            $("#sectors").html(data);
+          },
+        });
+      });
+    </script>
+  </body>
+  {% endblock content %}
+</html>

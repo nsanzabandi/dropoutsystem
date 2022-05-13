@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>report2</title>
+</head>
+<style>
+    @page {
+        size: "A4";
+        margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+        @top-center{
+            content: "DROPOUT";
+
+}
+
+    }
+
+</style>
+<body>
+  <img src="static/img/Gasabo.jpg" alt="">
+
+            <table class="table bg-white">
+              <thead class="bg-dark text-white my-4">
+                <tr>
+                  <th scope="col">Names</th>
+                  <th scope="col">Gender</th>
+                  <th scope="col">DoB</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Level</th>
+                  <th scope="col">yearDopped</th>
+                  <th scope="col">Reason</th>
+                </tr>
+              </thead>
+              
+              <tbody>
+                <br />
+                {% for student in totalstudent %}
+                <tr>
+                  <td>{{student.Full_name }}</td>
+                  <td>{{student.gender}}</td>
+                  <td>{{student.DoB}}</td>
+                  <td>{{student.phone_number}}</td>
+                  <td>{{student.levelofEducation}}</td>
+                  <td>{{student.yearDropped}}</td>
+                  <td>{{student.reason}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          
+</body>
+</html>

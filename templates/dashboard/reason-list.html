@@ -1,0 +1,42 @@
+{% extends 'layouts/main.html' %}
+{% block title %} Sector-List {% endblock title %}
+
+{% block content %}
+{% include 'layouts/topside.html' %}
+<div class="container">
+    <h3 > <a class="text-success text-decoration-none"href=""> Record new Student</a></h3>
+  <div class="row my-4">
+    <div class="col-md-4"> </div>
+      <div class="col-md-8">
+         <table class="table bg-white">
+    <thead class="bg-info text-white">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Reason-Name</th>
+        <th scope="col">Student-dropped</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for reason in reasons %}
+      <tr>
+        <td>{{ reason.id }}</td>
+        <td>{{ reason.reasonName }}</td>
+        <td>
+          <a class="text-decoration-none text-danger" href="">(10)</a>
+        </td>
+        <td>
+            <a class="text-decoration-none" href="">detail</a>
+          </td>
+
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+      </div>
+     
+    </div>
+</div>
+
+{% endblock content %}

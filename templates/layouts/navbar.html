@@ -1,0 +1,60 @@
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-info bg-dark">
+  {% if user.is_authenticated %}
+  <div class="container">
+  <a class="navbar-brand text-white" href="{% url 'admin-dashboard' %}">DropoutSystem</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link text-white" href="{% url 'admin-dashboard' %}">Dashboard <span class="sr-only">(current)</span></a>
+      </li>
+      
+    </ul>
+    <nav class="navbar navbar-light bg-dark">
+      <div class="container-fluid">
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" name="student" id="student" placeholder="Search" aria-label="Search">
+          <button class="btn btn-bg-success text-white" type="submit">Search</button>
+        </form>
+        <!-- jquery autocomplete -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+        <script>
+          $( function() {
+            $( "#student" ).autocomplete({
+              source: ['java','php','daniel']
+            });
+          } );
+          </script>
+
+
+      </div>
+    </nav>
+
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'user-profile' %}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'logout-user' %}">Logout</a>
+      </li>
+    </ul>
+  {% else %}
+    <ul class="navbar-nav ml-auto">
+
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'login-user' %}">Login</a>
+      </li>
+    </ul>
+  {% endif %}
+  </div>
+  </div>
+</nav>
+{% endblock content %}

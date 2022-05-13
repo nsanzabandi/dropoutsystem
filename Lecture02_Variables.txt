@@ -1,0 +1,164 @@
+----------------------------------------------------------------------------------------------------------------------------
+DECLARE 
+a number;
+b number;
+c number;
+BEGIN
+a := 5;
+b := 10;
+c := a + b;
+
+dbms_output.put_line ('The sum of the two is :' || c);
+
+END;
+/
+----------------------------------------------------------------------------------------------------------------------------
+2. Forward references are not allowed: declare a constant or variable before referencing it in another statement
+
+DECLARE 
+a number;
+b number;
+BEGIN
+DECLARE c number;
+a := 5;
+b := 10;
+c := a + b;
+
+dbms_output.put_line ('The sum of the two is :' || c);
+
+END;
+/
+----------------------------------------------------------------------------------------------------------------------------
+3. Illegal declaration
+
+DECLARE 
+a,b,c number;
+BEGIN
+a := 5;
+b := 10;
+c := a + b;
+
+dbms_output.put_line ('The sum of the two is :' || c);
+
+END;
+/
+----------------------------------------------------------------------------------------------------------------------------
+4. Same variable reference
+
+DECLARE 
+v_data varchar (15);
+V_DATA varchar (15);
+BEGIN
+
+v_data := 'Hello';
+V_DATA := 'Class';
+
+dbms_output.put_line ('Low is : ' || v_data || ' High is :' || V_DATA );
+END;
+/
+----------------------------------------------------------------------------------------------------------------------------
+5. Default values
+
+DECLARE
+c_introduction varchar2(50) DEFAULT 'Welcome To PLSQL Class';
+academic_year number DEFAULT 2022;
+BEGIN
+dbms_output.put_line (' Hi there, ' || c_introduction);
+dbms_output.put_line ('The year is : ' || academic_year);
+END;
+/
+
+----------------------------------------------------------------------------------------------------------------------------
+6. NOT NULL Values
+
+DECLARE
+c_introduction varchar2(50) DEFAULT 'Welcome To PLSQL Class';
+academic_year number NOT NULL := 2022;
+BEGIN
+dbms_output.put_line (' Hi there, ' || c_introduction);
+dbms_output.put_line ('The year is : ' || academic_year);
+END;
+/
+----------------------------------------------------------------------------------------------------------------------------
+7. Global Vs. Local
+
+DECLARE  
+ -- Global variables   
+   num1 number := 95;   
+   num2 number := 85;   
+BEGIN   
+   dbms_output.put_line('Outer Variable num1: ' || num1);  
+   dbms_output.put_line('Outer Variable num2: ' || num2);  
+   DECLARE   
+      -- Local variables  
+      num1 number := 195;   
+      num2 number := 185;   
+   BEGIN   
+      dbms_output.put_line('Inner Variable num1: ' || num1);  
+      dbms_output.put_line('Inner Variable num2: ' || num2);  
+   END;   
+END;  
+/ 
+----------------------------------------------------------------------------------------------------------------------------
+8. Variable Attributes
+
+-- Create table Employee 
+
+CREATE TABLE EMPLOYEE 
+(empname varchar2(50),
+empno integer UNIQUE,
+sal float);
+
+INSERT INTO EMPLOYEE VALUES ('John',678,200.25);
+INSERT INTO EMPLOYEE VALUES ('Rick',679,300.15);
+INSERT INTO EMPLOYEE VALUES ('Mowry',680,400.35);
+INSERT INTO EMPLOYEE VALUES ('Jerry',681,500.45);
+INSERT INTO EMPLOYEE VALUES ('Vader',682,600.55);
+
+--select * from EMPLOYEE where EMPNO =  678;
+--To get input from the console u can use --Ecode :=&Ecode; 
+
+DECLARE    
+SALARY EMPLOYEE.SAL%TYPE;  
+ECODE EMPLOYEE.empno%TYPE;   
+BEGIN     
+Ecode := 678;  
+select SAL into SALARY from EMPLOYEE where EMPNO = ECODE;  
+dbms_output.put_line('Salary of ' || ECODE || ' is = ' || SALARY);    
+END;
+/  
+----------------------------------------------------------------------------------------------------------------------------
+9. Variable Attributes
+
+DECLARE    
+EMP EMPLOYEE%ROWTYPE;  
+BEGIN     
+EMP.EMPNO := 682;  
+EMP.EMPNAME := 'Yoda';  
+UPDATE EMPLOYEE SET EMPLOYEE.EMPNAME=EMP.EMPNAME WHERE EMPLOYEE.EMPNO=EMP.EMPNO;  
+dbms_output.put_line('New row inserted');    
+END;
+/
+----------------------------------------------------------------------------------------------------------------------------
+10. Constants
+
+DECLARE
+s_name constant varchar2 (50) := 'AUCA';
+s_address varchar2(50) := 'Gishushu';
+BEGIN
+dbms_output.put_line (' My school is ' || s_name || ' and it is located at ' || s_address );
+s_address := ' Near RDB';
+dbms_output.put_line (' My school is ' || s_name || ' and it is located at ' || s_address );
+END;
+----------------------------------------------------------------------------------------------------------------------------
+11. Constants
+
+DECLARE
+s_name constant varchar2 (50) := 'AUCA';
+s_address varchar2(50) := 'Gishushu';
+BEGIN
+dbms_output.put_line (' My school is ' || s_name || ' and it is located at ' || s_address );
+s_address := ' Near RDB';
+s_name := ' University';
+dbms_output.put_line (' My school is ' || s_name || ' and it is located at ' || s_address );
+END;

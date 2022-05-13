@@ -1,0 +1,30 @@
+{% extends 'layouts/main.html' %}
+ {% block title %} Register-new Student {%endblock title %} 
+ {% load crispy_forms_tags %} 
+ {% block content %}
+
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-6 offset-md-3">
+      <div class="border bg-white p-4 text-success">
+        <h3 class="text-center">Register-new Student</h3>
+        <hr />
+        <form
+          method="POST"
+          id="studentForm"
+          enctype="multipart/form-data"
+          data-sectors-url="{% url 'load_sectors' %}"
+        >
+          {% csrf_token %} {{ studentform|crispy }}
+          <input
+            class="btn btn bg-success text-white"
+            type="submit"
+            value="Register"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% endblock content %}
+</div>

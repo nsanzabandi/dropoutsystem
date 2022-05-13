@@ -1,0 +1,64 @@
+{% block content %}
+<div class="container">
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header bg-info text-white">information</div>
+          <div class="card-body">
+            <marquee behavior="" direction="">
+              <h3 class="my-4">New information</h3>
+            </marquee>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header bg-info text-white">Statistics</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <a class="text-decoration-none text-dark" href="{% url 'admin-dashboard' %}">
+                  <div class="card my-card shadow text-center p-3">
+                    <h4 class="text-info">District <i class="fas fa-school"></i></h4>
+                    <h3>Gasabo</h3>
+                  </div>
+                </a>
+              </div>
+              <div class="col-md-4">
+                
+                  <div class="card my-card shadow text-center p-3">
+                    <h4 class="text-success">Sector <i class="fas fa-home"></i></h4>
+                    <form action="{% url 'sectors' %}" method="GET">
+                      {% csrf_token %}
+                    <select name="sectors"> 
+                      <option class="form-control" >---------------</option>
+                      {% for s in sectors %}
+                       <option>{{s.s_name}} </option>
+                        {% endfor %}             
+                    </select> 
+                    <br>   
+                    <input class="btn btn bg-success text-white" type="submit" value="Go">    
+                   </form>
+                  
+                  </div>
+              </div>
+              
+              <div class="col-md-4">
+                <a class="text-decoration-none text-dark" href="{% url 'student-list' %}">
+                  <div class="card my-card shadow text-center p-3">
+                    <h4 class="text-danger">dropout <i class="fas fa-child"></i></h4>
+                    <h3>{{ s_count }}</h3>
+                  </div>
+                </a>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  {% endblock content %}

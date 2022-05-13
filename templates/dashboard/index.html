@@ -1,0 +1,95 @@
+{% extends 'layouts/main.html' %}
+{% block title %} Admin page {% endblock %}
+{% block content %}
+{% if user.is_authenticated and user.is_staff and user.is_superuser %}
+{% include 'layouts/navbar2.html' %}
+{% include 'layouts/topside.html' %}
+<!-- graph -->
+<div class="container">
+  <div class="row my-5">
+      <div class="col-md-6">
+        <div class="bg-white">
+          <canvas id="myChart" width="400" height="300"></canvas>
+          <script>
+            const ctx = document.getElementById("myChart").getContext("2d");
+            const myChart = new Chart(ctx, {
+              type: "bar",
+              data: {
+                labels: [{% for st in stud %}, '{{ st.sector.s_name }}', {% endfor %}],
+                datasets: [
+                  {
+                    label: 'dropout',
+                    data: [{% for number in stud %}, '{{ number.total_dropout }}', {% endfor %}],
+                    backgroundColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                      "rgba(255, 206, 86, 1)",
+                      "rgba(75, 192, 192, 1)",
+                      "rgba(153, 102, 255, 1)",
+                      "rgba(255, 159, 64, 1)",
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              },
+            });
+          </script>
+        </div>
+    </div>
+    <div class="col-md-6">
+      <div class="bg-white">
+        <table class="table">
+          <thead class="bg-info text-white">
+            <tr>
+              <th scope="col">Gender</th>
+              <th scope="col">total</th>
+            </tr>
+          </thead>
+          <tbody>
+               {% for st in student %}
+                  <tr>
+                    <td>{{ st.gender }} </td> 
+                    <td>{{st.total}}</td>
+                  </tr>
+               {% endfor %}
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end  graph -->
+{% else %}
+ {% include 'layouts/topside.html' %}
+<div class="container">
+  <div class="col-md-4">
+    <a
+      class="text-decoration-none text-danger"
+      href="{% url 'notification-list' %}"
+    >
+      <div class="card my-card shadow text-center p-3">
+        <h4 class="text-success">
+          View Notification <i class="fas fa-child"></i>
+        </h4>
+        <h3>{{ s_count }}</h3>
+      </div>
+    </a>
+  </div>
+</div>
+{% endif %} {% endblock content %}

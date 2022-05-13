@@ -1,0 +1,35 @@
+{% extends 'layouts/main.html' %}
+{% block title %} messages {% endblock title %}
+
+{% block content %}
+{% include 'layouts/topside.html' %}
+<div class="container">
+    <h3 > <a class="text-success text-decoration-none"href="{% url 'record-sector' %}"> + New Sector</a></h3>
+  <div class="row my-4">
+    <div class="col-md-4"> </div>
+      <div class="col-md-8">
+         <table class="table bg-white">
+    <thead class="bg-info text-white">
+      <tr>
+        <th scope="col">Sector-Name</th>
+        <th scope="col">No</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sec in sectors %}
+      <tr>
+        <td>{{ sec.s_name }}</td>
+        <td>
+            <a class="text-decoration-none text-danger" href="">(2)</a>
+          </td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+  <a href="">Generet-report</a>
+      </div>
+     
+    </div>
+</div>
+{% endblock content %}

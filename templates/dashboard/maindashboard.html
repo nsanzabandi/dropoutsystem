@@ -1,0 +1,230 @@
+{% extends 'layouts/main.html' %}
+{% block title %} Admin page {% endblock %}
+{% block content %}
+
+    <input type="checkbox" id="nav-toggle">
+    <!-- Sidebar -->
+    <section class="sidebar">
+        <div class="sidebar-brand">
+            <h2>
+                <span><i class="fab fa-font-awesome-alt"></i></span>
+                <span>Dropout</span>
+            </h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="#" class="active"> 
+                        <span><i class="fas fa-tachometer-alt"></i> </span>
+                        <span>Dashboard</span> 
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'sendmessage' %}">
+                        <span><i class="fas fa-home"></i> </span>
+                        <span>Direct SMS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'register-user' %}">
+                        <span><i class="fas fa-book-reader"></i> </span>
+                        <span>Add Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'sector-list' %}">
+                        <span><i class="fas fa-laptop-code"></i> </span>
+                        <span>Sectors</span>
+                    </a>
+                </li>
+                <li>
+                  <a href="{% url 'student-list' %}">
+                      <span><i class="fas fa-laptop-code"></i> </span>
+                      <span>All Students</span>
+                  </a>
+              </li>
+                <li>
+                    <a href="{% url 'user-profile' %}">
+                        <span><i class="fas fa-book-reader"></i> </span>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout-user' %}">
+                        <span><i class="fas fa-book-reader"></i> </span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+             
+            </ul>
+        </div>
+    </section>
+    <!-- Sidebar End Here -->
+
+    <!-- Main Content -->
+    <div class="main-content">
+            <!-- Navbar Header -->
+            <header>
+
+                <div class="header-title">
+                    <h2>  
+                        <label for="nav-toggle">
+                            <i class="fas fa-bars"></i>
+                        </label>
+                        Dashboard 
+                    </h2>
+                </div>
+                
+                  <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="search" name="q" placeholder="Search Here">
+                </div>
+                
+                
+
+            </header>
+            <main>
+            {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+            
+                {% include 'layouts/topside.html'  %}
+
+                <div class="container">
+                    <div class="row my-5">
+                        <div class="col-md-6">
+                          <div class="bg-white">
+                            <canvas id="myChart" width="400" height="300"></canvas>
+                            <script>
+                              const ctx = document.getElementById("myChart").getContext("2d");
+                              const myChart = new Chart(ctx, {
+                                type: "bar",
+                                data: {
+                                  labels: [{% for st in stud %}, '{{ st.sector.s_name }}', {% endfor %}],
+                                  datasets: [
+                                    {
+                                      label: 'dropout',
+                                      data: [{% for number in stud %}, '{{ number.total_dropout }}', {% endfor %}],
+                                      backgroundColor: [
+                                        "rgba(255, 99, 132, 1)",
+                                        "rgba(54, 162, 235, 1)",
+                                        "rgba(255, 206, 86, 1)",
+                                        "rgba(75, 192, 192, 1)",
+                                        "rgba(153, 102, 255, 1)",
+                                        "rgba(255, 159, 64, 1)",
+                                      ],
+                                      borderColor: [
+                                        "rgba(255, 99, 132, 1)",
+                                        "rgba(54, 162, 235, 1)",
+                                        "rgba(255, 206, 86, 1)",
+                                        "rgba(75, 192, 192, 1)",
+                                        "rgba(153, 102, 255, 1)",
+                                        "rgba(255, 159, 64, 1)",
+                                      ],
+                                      borderWidth: 1,
+                                    },
+                                  ],
+                                },
+                                options: {
+                                  scales: {
+                                    y: {
+                                      beginAtZero: true,
+                                    },
+                                  },
+                                },
+                              });
+                            </script>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="bg-white">
+                          <table class="table">
+                            <thead class="bg-info text-white">
+                              <tr>
+                                <th scope="col">Reasons</th>
+                                <th scope="col">total</th>
+                                <th scope="col">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                 {% for st in stude %}
+                                    <tr>
+                                      <td>{{ st.reason }} </td> 
+                                      <td class="text-danger" id="total-reason">{{st.total_reason}}</td>
+                                      {% if st.total_reason > 3 %}
+                                      <td id="reason-name" style="display: none;"> {{st.reason}} </td>
+                                        <td > <a class="text-decoration-none text-danger warn-me" >Warning</a></td> 
+                                      {% else %}
+                                      <td class="text-info">Action-needed</td>
+                                      {% endif %}
+                                    </tr>
+                                 {% endfor %}
+                            </tbody>
+                          </table>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end  graph -->
+                  {% else %}
+                   {% include 'layouts/topside.html' %}
+                  <div class="container">
+                    <div class="col-md-4">
+                      <a
+                        class="text-decoration-none text-danger"
+                        href="{% url 'messageboard' %}"
+                      >
+                        <div class="card my-card shadow text-center p-3">
+                          <h4 class="text-success">
+                            Notification Board <i class="fas fa-child"></i>
+                          </h4>
+                          <marquee behavior="" direction="down">
+                            <h3 class="my-4">{{ c_message }}</h3>
+                          </marquee>
+                          
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                  {% endif %} 
+            </main>
+            <script>
+              let warnMe = document.querySelector('.warn-me');
+              let totalReason = document.getElementById('total-reason').innerHTML;
+              let reasonName = document.getElementById('reason-name').innerHTML;
+              if(warnMe){
+                var audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
+                function beep(duration, frequency, volume, type, callback) {
+                var oscillator = audioCtx.createOscillator();
+                var gainNode = audioCtx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                if (volume){gainNode.gain.value = volume;}
+                if (frequency){oscillator.frequency.value = frequency;}
+                if (type){oscillator.type = type;}
+                if (callback){oscillator.onended = callback;}
+
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + ((duration || 500) / 1000));
+            };
+
+                window.onload = function () {
+                  
+                  Swal.fire({
+                    icon: "warning",
+                    title: ` ${reasonName}` ,
+                    text: `Is the main reason why student left school`,
+                    footer: '<a class="text-success" href="">ubukangurambaga burakenewe ?</a>',
+                    //timer: 1500,
+                  });
+                }
+                beep()
+              }
+            
+            </script>
+    </div>
+    
+    
+{% endblock %}

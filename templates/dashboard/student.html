@@ -1,0 +1,57 @@
+{% extends 'layouts/main.html' %}
+{% block title %} Student-List {% endblock title %}
+
+{% block content %}
+{% include 'layouts/topside.html' %}
+
+<div class="container">
+    <h3 ><a class="text-success text-decoration-none"href="{% url 'student-registration' %}"> + New Student</a></h3>
+    
+  <div class="row my-4">
+    <div class="col-md-4"> </div>
+      <div class="col-md-16">
+  <table class="table bg-white">
+    <h5 class="text-danger">Total_Dropped: {{student_count}}</h5>
+    <h3 class="text-dark text-center">Dropout Report</h3>
+    <thead class="bg-info text-white">
+      <tr>
+        <th scope="col">Names</th>
+        <th scope="col">Gender</th>
+        <th scope="col">DoB</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Level</th>
+        <th scope="col">yearDopped</th>
+        <th scope="col">Reason</th>
+        <th scope="col">Sector</th>
+        <th scope="col">Activity</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+     {% for student in students %}
+      <tr>
+        <td>{{ student.Full_name }}</td>
+        <td>{{student.gender}}</td>
+        <td>{{student.DoB}}</td>
+        <td>{{student.phone_number}}</td>
+        <td>{{student.levelofEducation}}</td>
+        <td>{{student.yearDropped}}</td>
+        <td>{{student.reason}}</td>
+        <td>{{student.sector.s_name}}</td>
+        <td>
+          <a class="text-decoration-none text-info" href="{% url 'edit-student' student.id %}"><i class="fa fa-edit"></i></a>
+          <a class="text-decoration-none text-danger btn-sm rounded-0" href="{% url 'delete-student' student.id %}"><i class="fa fa-trash"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+   
+  </table>
+ 
+  
+  </div>
+</div>
+
+<a class="text-decoration-none" href="{% url 'report2' %}">generate-report</a>
+</div>
+{% endblock content %}

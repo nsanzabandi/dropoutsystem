@@ -1,0 +1,38 @@
+{% extends 'layouts/main.html' %}
+{% block title %} District-List {% endblock title %}
+
+{% block content %}
+{% include 'layouts/topside.html' %}
+<div class="container">
+  <h3 > <a class="text-success text-decoration-none"href=""> Record new Student</a></h3>
+  <div class="row my-4">
+    <div class="col-md-4"> </div>
+      <div class="col-md-4">
+         <table class="table">
+    <thead class="bg-info text-white">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">District</th>
+        <th scope="col">Student-dropped</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for district in districts %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{ district.d_name }}</td>
+        <td>
+          <a class="text-decoration-none text-danger" href="">(10)</a>
+        </td>
+
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+      </div>
+     
+    </div>
+</div>
+
+{% endblock content %}

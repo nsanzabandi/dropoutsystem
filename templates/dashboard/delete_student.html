@@ -1,0 +1,27 @@
+{% extends 'layouts/main.html' %}
+{% load crispy_forms_tags %} 
+ {% block title %} delete student page {% endblock title %}
+  {% block content %}
+
+<div class="container">
+  <div class="row-mt-5">
+    <div class="col-md-6 offset-md-3">
+      <div class="border bg-white p-3">
+        <h3>Delete Student</h3>
+        <hr />
+        <div class="alert alert-danger">
+          <h4>Are you sure you want to delete {{student}}?</h4>
+        </div>
+        <form method="POST">
+          {% csrf_token %}
+           {{studentform|crispy}}
+
+          <a class="btn btn-secondary" href="{% url 'student-list' %}">Back</a>
+          <input class="btn btn-danger" type="submit" value="confirm" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
